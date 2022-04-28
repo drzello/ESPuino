@@ -26,7 +26,7 @@
 #include "revision.h"
 #include "Power.h"
 
-#define HAL 10
+//#define HAL 10
 
 #ifdef PLAY_LAST_RFID_AFTER_REBOOT
     bool recoverLastRfid = true;
