@@ -20,10 +20,10 @@
     // RFID (via SPI; currently not supported!)
     #if defined(RFID_READER_TYPE_MFRC522_SPI)
         #define RST_PIN                         99          // Not necessary but has to be set anyway; so let's use a dummy-number
-        #define RFID_CS                         21          // GPIO for chip select (RFID)
-        #define RFID_MOSI                       23          // GPIO for master out slave in (RFID)
-        #define RFID_MISO                       19          // GPIO for master in slave out (RFID)
-        #define RFID_SCK                        18          // GPIO for clock-signal (RFID)
+        #define RFID_CS                         99//21          // GPIO for chip select (RFID)
+        #define RFID_MOSI                       99//23          // GPIO for master out slave in (RFID)
+        #define RFID_MISO                       99//19          // GPIO for master in slave out (RFID)
+        #define RFID_SCK                        99//18          // GPIO for clock-signal (RFID)
     #endif
 
     // RFID (via I2C)
@@ -37,23 +37,25 @@
         #define ext_IIC_DATA                18          // i2c-SDA (data) [14 pin-header]
     #endif
 
-   // I2S (DAC)
-    #define I2S_DOUT                        25          // Digital out (I2S)
+  // I2S (DAC)
+    #define I2S_DSIN                        35//26
+    #define I2S_DOUT                        26///35          // Digital out (I2S)
     #define I2S_BCLK                        27          // BCLK (I2S)
-    #define I2S_LRC                         26          // LRC (I2S)
-    
-    //#define I2S_DSIN 26
-    //#define I2S_BCLK 27
-    //#define I2S_LRC 25
-    //#define I2S_MCLK 0
-    //#define I2S_DOUT 35
+    #define I2S_LRC                         25          // LRC (I2S)
+    #define I2S_MCLK                        0
 
-    // I2C (AC101)
+    // I2C GPIOs
     #define IIC_CLK                         32          // internal
     #define IIC_DATA                        33          // internal
 
+   // #define I2S_DSIN 26
+    //#define I2S_BCLK 5
+    //#define I2S_LRC 25
+    //#define I2S_MCLK 0
+    //define I2S_DOUT 26
+
     // Amp enable
-    #define GPIO_PA_EN                      21          // internal
+    #define GPIO_PA_EN                      21         // internal
 
     // Rotary encoder
     #ifdef USEROTARY_ENABLE

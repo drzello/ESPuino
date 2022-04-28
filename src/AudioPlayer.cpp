@@ -47,6 +47,7 @@ static void AudioPlayer_SortPlaylist(char *str[], const uint32_t count);
 static size_t AudioPlayer_NvsRfidWriteWrapper(const char *_rfidCardId, const char *_track, const uint32_t _playPosition, const uint8_t _playMode, const uint16_t _trackLastPlayed, const uint16_t _numberOfTracks);
 
 void AudioPlayer_Init(void) {
+    
     #ifndef USE_LAST_VOLUME_AFTER_REBOOT
         // Get initial volume from NVS
         uint32_t nvsInitialVolume = gPrefsSettings.getUInt("initVolume", 0);
@@ -297,8 +298,22 @@ void AudioPlayer_Task(void *parameter) {
     #endif
 
     uint8_t settleCount = 0;
+
+    
+    
+    //#define I2S_DSIN 26
+    //#define I2S_BCLK 27
+    //#define I2S_LRC 25
+    //#define I2S_MCLK 0
+    //#define I2S_DOUT 35
+
+    audio->i2s_mclk_pin_select(I2S_MCLK);
+
+    //audio->setPinout(I2S_BCLK, I2S_LRC, I2S_DSIN);
+    //audio->setVolume(10); // 0...21
+
     audio->setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
-    audio->setVolume(AudioPlayer_GetInitVolume());
+    //audio->setVolume(AudioPlayer_GetInitVolume());
     audio->forceMono(gPlayProperties.currentPlayMono);
     if (gPlayProperties.currentPlayMono) {
         audio->setTone(3, 0, 0);

@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include "settings.h" // Contains all user-relevant settings (general)
-
+//#include "Audio.h"
 #include "AudioPlayer.h"
 #include "Battery.h"
 #include "Bluetooth.h"
@@ -43,7 +43,6 @@
     //static TwoWire i2cBusOne = TwoWire(0);
     //static AC101 ac(&i2cBusOne);
     static ES8388 es;
-    //    ES8388 dac;                                 // ES8388 (new board)
 #endif
 
 // I2C
@@ -105,7 +104,7 @@
     }
 #endif
 
-int volume = 80;                            // 0...100
+int volume = 30;                            // 0...100
 
 void setup() {
     Log_Init();
@@ -163,30 +162,26 @@ void setup() {
 
         // Only used for ESP32-A1S-Audiokit with ES8388-Audiodiver
     #if (HAL == 10)
-        //i2cBusOne.begin(IIC_DATA, IIC_CLK, 40000);
-
-         while (not es.begin(IIC_DATA, IIC_CLK))
+        
+        //Wire.begin(IIC_DATA, IIC_CLK, 40000);
+         while (not es.begin(IIC_DATA, IIC_CLK, 40000))
         {
-            Serial.printf("Failed!\n");
+            Serial.printf("ES8338 failed!\n");
             delay(1000);
         }
-        es.volume(ES8388::ES_MAIN, volume);
-        es.volume(ES8388::ES_OUT1, volume);
-        es.volume(ES8388::ES_OUT2, volume);
-        es.mute(ES8388::ES_OUT1, false);
-        es.mute(ES8388::ES_OUT2, false);
-        es.mute(ES8388::ES_MAIN, false);
-        /*while (not ac.begin()) {
-            Serial.println(F("Audiotreiber Failed!"));
-            delay(1000);
-        }
-        Serial.println(F("Audiotreiber via I2C - OK!"));
+        pinMode(GPIO_PA_EN, OUTPUT);
+        digitalWrite(GPIO_PA_EN, HIGH);
+        Serial.println(F("Built-in amplifier ES8388 enabled\n"));
 
-        pinMode(22, OUTPUT);
-        digitalWrite(22, HIGH);*/
+        //es.volume(ES8388::ES_MAIN, volume);
+        //es.volume(ES8388::ES_OUT1, volume);
+        //es.volume(ES8388::ES_OUT2, volume);
+        //es.mute(ES8388::ES_OUT1, false);
+        //es.mute(ES8388::ES_OUT2, false);
+        //es.mute(ES8388::ES_MAIN, false);
 
-        //ac.SetVolumeHeadphone(80);
-        //ac.volume(80);
+
+  
     #endif
 
     // Needs power first
