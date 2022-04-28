@@ -36,9 +36,12 @@
 ////////////
 
 #if (HAL == 2)
-    #include "AC101.h"
-    static TwoWire i2cBusOne = TwoWire(0);
-    static AC101 ac(&i2cBusOne);
+    //#include "AC101.h"
+    #include "ES8388.h"  // https://github.com/maditnerd/es8388
+    //static TwoWire i2cBusOne = TwoWire(0);
+    //static AC101 ac(&i2cBusOne);
+    static ES8388 ac;
+    //    ES8388 dac;                                 // ES8388 (new board)
 #endif
 
 // I2C
@@ -141,17 +144,18 @@ void setup() {
 
     // Only used for ESP32-A1S-Audiokit
     #if (HAL == 2)
-        i2cBusOne.begin(IIC_DATA, IIC_CLK, 40000);
+        //i2cBusOne.begin(IIC_DATA, IIC_CLK, 40000);
 
         while (not ac.begin()) {
-            Serial.println(F("AC101 Failed!"));
+            Serial.println(F("Audiotreiber Failed!"));
             delay(1000);
         }
-        Serial.println(F("AC101 via I2C - OK!"));
+        Serial.println(F("Audiotreiber via I2C - OK!"));
 
         pinMode(22, OUTPUT);
         digitalWrite(22, HIGH);
-        ac.SetVolumeHeadphone(80);
+        //ac.SetVolumeHeadphone(80);
+        //ac.volume(80);
     #endif
 
     // Needs power first

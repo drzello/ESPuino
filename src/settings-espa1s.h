@@ -37,10 +37,16 @@
         #define ext_IIC_DATA                18          // i2c-SDA (data) [14 pin-header]
     #endif
 
-    // I2S (DAC)
+   // I2S (DAC)
     #define I2S_DOUT                        25          // Digital out (I2S)
     #define I2S_BCLK                        27          // BCLK (I2S)
     #define I2S_LRC                         26          // LRC (I2S)
+    
+    //#define I2S_DSIN 26
+    //#define I2S_BCLK 27
+    //#define I2S_LRC 25
+    //#define I2S_MCLK 0
+    //#define I2S_DOUT 35
 
     // I2C (AC101)
     #define IIC_CLK                         32          // internal
