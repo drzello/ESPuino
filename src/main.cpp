@@ -26,6 +26,8 @@
 #include "revision.h"
 #include "Power.h"
 
+#define HAL 10
+
 #ifdef PLAY_LAST_RFID_AFTER_REBOOT
     bool recoverLastRfid = true;
     bool recoverBootCount = true;
@@ -35,12 +37,12 @@
 
 ////////////
 
-#if (HAL == 2)
+#if (HAL == 10)
     //#include "AC101.h"
     #include "ES8388.h"  // https://github.com/maditnerd/es8388
     //static TwoWire i2cBusOne = TwoWire(0);
     //static AC101 ac(&i2cBusOne);
-    static ES8388 ac;
+    static ES8388 es;
     //    ES8388 dac;                                 // ES8388 (new board)
 #endif
 
@@ -103,6 +105,7 @@
     }
 #endif
 
+int volume = 80;                            // 0...100
 
 void setup() {
     Log_Init();
@@ -147,13 +150,41 @@ void setup() {
         //i2cBusOne.begin(IIC_DATA, IIC_CLK, 40000);
 
         while (not ac.begin()) {
+            Serial.println(F("AC101 Failed!"));
+            delay(1000);
+        }
+        Serial.println(F("AC101 via I2C - OK!"));
+
+        pinMode(22, OUTPUT);
+        digitalWrite(22, HIGH);
+        //ac.SetVolumeHeadphone(80);
+        //ac.volume(80);
+    #endif
+
+        // Only used for ESP32-A1S-Audiokit with ES8388-Audiodiver
+    #if (HAL == 10)
+        //i2cBusOne.begin(IIC_DATA, IIC_CLK, 40000);
+
+         while (not es.begin(IIC_DATA, IIC_CLK))
+        {
+            Serial.printf("Failed!\n");
+            delay(1000);
+        }
+        es.volume(ES8388::ES_MAIN, volume);
+        es.volume(ES8388::ES_OUT1, volume);
+        es.volume(ES8388::ES_OUT2, volume);
+        es.mute(ES8388::ES_OUT1, false);
+        es.mute(ES8388::ES_OUT2, false);
+        es.mute(ES8388::ES_MAIN, false);
+        /*while (not ac.begin()) {
             Serial.println(F("Audiotreiber Failed!"));
             delay(1000);
         }
         Serial.println(F("Audiotreiber via I2C - OK!"));
 
         pinMode(22, OUTPUT);
-        digitalWrite(22, HIGH);
+        digitalWrite(22, HIGH);*/
+
         //ac.SetVolumeHeadphone(80);
         //ac.volume(80);
     #endif

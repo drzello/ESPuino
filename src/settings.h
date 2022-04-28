@@ -22,8 +22,9 @@
     99: custom                              => settings-custom.h
     more to come...
     */
+   #define HAL 10
     #ifndef HAL             // Will be set by platformio.ini. If using Arduini-IDE you have to set HAL according your needs!
-        #define HAL 1       // HAL 1 = LoLin32, 2 = ESP32-A1S-AudioKit, 3 = Lolin D32, 4 = Lolin D32 pro; ... 99 = custom
+        #define HAL 10       // HAL 1 = LoLin32, 2 = ESP32-A1S-AudioKit, 3 = Lolin D32, 4 = Lolin D32 pro; ... 99 = custom
     #endif
 
 
@@ -274,6 +275,8 @@
         #include "settings-azdelivery_sdmmc.h"              // Pre-configured settings for AZ Delivery ESP32 NodeMCU / Devkit C (https://forum.espuino.de/t/az-delivery-esp32-nodemcu-devkit-c-mit-sd-mmc-und-pn5180-als-rfid-leser/634)
     #elif (HAL == 9)
         #include "settings-lolin_d32_sdmmc_pe.h"            // Pre-configured settings for ESPuino Lolin D32 pro with SDMMC + port-expander (https://forum.espuino.de/t/espuino-minid32-pro-lolin-d32-pro-mit-sd-mmc-und-port-expander-smd/866)
+    #elif (HAL == 10)
+        #include "settings-espa1sES8288.h"            // Pre-configured settings for ESPuino Lolin D32 pro with SDMMC + port-expander (https://forum.espuino.de/t/espuino-minid32-pro-lolin-d32-pro-mit-sd-mmc-und-port-expander-smd/866)
     #elif (HAL == 99)
         #include "settings-custom.h"                        // Contains all user-relevant settings custom-board
     #endif
